@@ -1,407 +1,256 @@
-# API_EVAL3: Programación Orientada a Objetos
+# API_EVAL3 — Programación Orientada a Objetos
 
-## Evaluación Unidad 3 - Integración API REST con Persistencia en MySQL usando Python
+## Evaluación Unidad 3  
+### Consumo de API REST, Arquitectura en Capas, Persistencia en MySQL y Encriptación  
+**Asignatura:** Programación Orientada a Objetos  
+**Lenguaje:** Python  
 
 ---
 
-## 1. Descripción General
+## 1. Descripción General del Proyecto
 
-**API_EVAL3** es un proyecto de evaluación académica que demuestra la integración completa de una arquitectura de software moderna basada en **Programación Orientada a Objetos (POO)**.
+**API_EVAL3** es un proyecto académico desarrollado para la Evaluación de la Unidad 3 de Programación Orientada a Objetos.  
+El objetivo principal del proyecto es **demostrar la aplicación práctica de los conceptos de POO** mediante el consumo de una **API REST externa**, el procesamiento de los datos utilizando **arquitectura en capas**, y la **persistencia de información en una base de datos MySQL**.
 
-El proyecto consume la API pública **JSONPlaceholder** para obtener datos de usuarios y publicaciones (posts), los procesa mediante clases y servicios especializados, y finalmente los persiste en una base de datos **MySQL**.
+El sistema consume datos desde la API pública **JSONPlaceholder**, los transforma en objetos de dominio, los almacena en una base de datos local y permite interactuar con ellos mediante un **menú por consola**, simulando el funcionamiento de un sistema backend real.
 
-### Objetivos educativos:
+Además, el proyecto incorpora una **capa de negocio** que demuestra el uso de **encriptación de cadenas** mediante el algoritmo SHA-256, cumpliendo con los criterios solicitados en la pauta de evaluación.
 
-- Aplicar conceptos fundamentales de Programación Orientada a Objetos
+---
+
+## 2. Objetivos Académicos
+
+Este proyecto tiene como objetivos:
+
+- Aplicar Programación Orientada a Objetos en un contexto real
+- Diseñar una arquitectura en capas clara y mantenible
 - Consumir y procesar datos desde una API REST externa
-- Implementar persistencia de datos en MySQL
-- Demostrar separación de responsabilidades mediante arquitectura en capas
-- Practicar buenas prácticas de desarrollo de software
+- Persistir datos en una base de datos relacional MySQL
+- Implementar separación de responsabilidades
+- Demostrar encriptación de cadenas en la capa de negocio
+- Utilizar un menú interactivo para ejecutar funcionalidades del sistema
+- Desarrollar el proyecto utilizando herramientas profesionales como GitHub Copilot
 
 ---
 
-## 2. Arquitectura del Proyecto
+## 3. Arquitectura del Proyecto
 
-El proyecto está organizado en **capas**, cada una con responsabilidades específicas:
+El proyecto está estructurado siguiendo una **arquitectura en capas**, similar a la utilizada en sistemas backend reales.
 
-```
 API_EVAL3
 ├── app/
-│   ├── api/                  # Capa de integración con API externa
-│   │   └── jsonplaceholder_client.py
-│   │
-│   ├── modelos/              # Capa de modelos de dominio
-│   │   ├── usuario.py
-│   │   └── post.py
-│   │
-│   ├── services/             # Capa de lógica de negocio
-│   │   ├── usuario_service.py
-│   │   └── post_service.py
-│   │
-│   ├── config/               # Capa de configuración
-│   │   ├── conexion.py       # Gestión de conexión a BD
-│   │   └── settings.py       # Variables de configuración
-│   │
-│   └── main.py               # Punto de entrada (orquestación)
+│ ├── api/ # Capa de integración con API externa
+│ │ └── jsonplaceholder_client.py
+│ │
+│ ├── modelos/ # Capa de modelos de dominio (POO)
+│ │ ├── usuario.py
+│ │ └── post.py
+│ │
+│ ├── services/ # Capa de servicios / aplicación
+│ │ ├── usuario_service.py
+│ │ └── post_service.py
+│ │
+│ ├── negocio/ # Capa de negocio
+│ │ └── encriptador.py
+│ │
+│ ├── config/ # Configuración y conexión a BD
+│ │ ├── conexion.py
+│ │ └── settings.py
+│ │
+│ └── main.py # Punto de entrada y menú principal
 │
 ├── datos/
-│   └── ddl.sql               # Definición de estructura de BD
+│ └── ddl.sql # Script de creación de base de datos
 │
-├── requirements.txt          # Dependencias del proyecto
-└── README.md                 # Este archivo
-```
+├── requirements.txt # Dependencias del proyecto
+└── README.md # Documentación académica
 
-### Relación con Programación Orientada a Objetos:
-
-| Componente | Concepto POO | Descripción |
-|-----------|-------------|-------------|
-| **Modelos** (usuario.py, post.py) | Clases | Representan entidades del dominio |
-| **Servicios** (usuario_service.py, post_service.py) | Métodos de clase, Inyección de dependencias | Coordinan la lógica de negocio |
-| **Cliente API** (jsonplaceholder_client.py) | Encapsulación | Abstrae la comunicación HTTP |
-| **Conexión** (conexion.py) | Manejo de recursos | Gestiona el ciclo de vida de la conexión |
+yaml
+Copiar código
 
 ---
 
-## 3. Tecnologías Utilizadas
+## 4. Relación con Programación Orientada a Objetos
 
-| Tecnología | Versión | Propósito |
-|-----------|---------|----------|
-| **Python** | 3.8+ | Lenguaje principal |
-| **MySQL** | 5.7+ | Base de datos relacional |
-| **WampServer** | 3.2.x | Servidor local con MySQL integrado |
-| **requests** | 2.28+ | Cliente HTTP para consumir API |
-| **mysql-connector-python** | 8.0+ | Conector MySQL para Python |
-| **JSONPlaceholder** | - | API REST pública de pruebas |
-| **GitHub Copilot** | - | Asistencia en desarrollo |
-| **Visual Studio Code** | - | Editor de código |
+| Capa | Concepto POO | Función |
+|----|----|----|
+| modelos | Clases y objetos | Representan entidades del dominio |
+| services | Métodos, composición | Coordinan la lógica del sistema |
+| negocio | Encapsulación | Procesamiento interno (encriptación) |
+| api | Abstracción | Aísla la comunicación HTTP |
+| config | Manejo de recursos | Controla la conexión a la BD |
+| main | Orquestación | Coordina el flujo general |
 
 ---
 
-## 4. Conceptos de POO Aplicados
+## 5. Tecnologías Utilizadas
 
-### 4.1 Clases y Objetos
+- **Python 3.8+**
+- **MySQL** (mediante WampServer)
+- **JSONPlaceholder** (API REST pública)
+- **requests** (cliente HTTP)
+- **mysql-connector-python**
+- **Visual Studio Code**
+
+---
+
+## 6. Conceptos de POO Aplicados
+
+### 6.1 Clases y Objetos
+
+Las entidades principales del sistema están representadas mediante clases:
 
 ```python
 class Usuario:
-    def __init__(self, id: int, nombre: str, correo: str):
+    def __init__(self, id, nombre, correo):
         self.id = id
         self.nombre = nombre
         self.correo = correo
-```
+Cada instancia representa un objeto independiente dentro del sistema.
 
-Las clases `Usuario` y `Post` representan entidades del dominio. Cada instancia es un objeto independiente.
+6.2 Métodos de Clase
+Se utilizan métodos de clase para crear objetos a partir de estructuras JSON:
 
-### 4.2 Constructores
-
-```python
-def __init__(self, cliente: JsonPlaceholderClient, conexion: Conexion):
-    self.cliente = cliente
-    self.conexion = conexion
-```
-
-Los constructores inicializan el estado del objeto mediante **inyección de dependencias**.
-
-### 4.3 Métodos de Clase (@classmethod)
-
-```python
+python
+Copiar código
 @classmethod
-def from_dict(cls, data: dict) -> 'Usuario':
+def from_dict(cls, data):
     return cls(
         id=data['id'],
         nombre=data['name'],
         correo=data['email']
     )
-```
+6.3 Encapsulación
+Los detalles internos de implementación se mantienen ocultos, exponiendo únicamente métodos públicos necesarios para el funcionamiento del sistema.
 
-Los métodos de clase permiten crear instancias a partir de diccionarios (JSON).
+6.4 Separación de Responsabilidades
+Cada clase y módulo cumple una única responsabilidad, evitando dependencias innecesarias entre capas.
 
-### 4.4 Encapsulación
+7. Capa de Negocio: Encriptación
+La carpeta negocio representa la capa de negocio del sistema.
 
-```python
-def _obtener_usuarios_api(self) -> List[Usuario]:
-    # Método privado (convención: prefijo _)
-```
+Encriptador
+El archivo encriptador.py implementa una clase Encriptador que utiliza el algoritmo SHA-256 mediante la librería estándar hashlib.
 
-Los métodos privados (con prefijo `_`) encapsulan detalles internos no expuestos públicamente.
+Funciones principales:
 
-### 4.5 Separación de Responsabilidades
+Encriptar cadenas de texto
 
-Cada clase tiene un propósito específico:
+Verificar si un texto coincide con un hash
 
-- **JsonPlaceholderClient**: Comunicación con API
-- **Usuario / Post**: Representación de datos
-- **UsuarioService / PostService**: Lógica de negocio
-- **Conexion**: Gestión de conexiones
-- **main.py**: Orquestación del flujo
+Demostrar procesamiento de datos independiente de la API y la BD
 
----
+Esta funcionalidad se ejecuta y demuestra directamente desde el menú principal del sistema.
 
-## 5. Flujo de Funcionamiento
+8. Flujo General del Sistema
+Flujo completo:
+css
+Copiar código
+Usuario
+  ↓
+Menú principal (main.py)
+  ↓
+Servicios
+  ↓
+Cliente API / Base de Datos
+  ↓
+Modelos
+9. Menú Interactivo
+El sistema se ejecuta mediante un menú por consola que permite:
 
-### Fase 1: Obtención de datos desde API
+Ejecutar prueba integrada completa
 
-```
-JSONPlaceholder API
-        ↓
-JsonPlaceholderClient.get_usuarios()
-        ↓
-Lista de diccionarios JSON
-```
+Importar usuarios desde la API
 
-### Fase 2: Conversión a objetos
+Importar posts desde la API
 
-```
-Diccionarios JSON
-        ↓
-Usuario.from_dict() / Post.from_dict()
-        ↓
-Objetos Usuario y Post
-```
+Listar usuarios desde la base de datos
 
-### Fase 3: Persistencia en BD
+Listar posts desde la base de datos
 
-```
-Objetos
-        ↓
-UsuarioService.importar_desde_api()
-        ↓
-Conexion.obtener_conexion()
-        ↓
-INSERT INTO usuario ...
-        ↓
-MySQL (api_eval3)
-```
+Eliminar usuarios
 
-### Fase 4: Consulta y recuperación
+Eliminar posts
 
-```
-SELECT * FROM usuario
-        ↓
-Filas de BD
-        ↓
-Usuario.from_dict() para cada fila
-        ↓
-Lista de objetos Usuario
-```
+Probar la encriptación (capa de negocio)
 
----
+Salir
 
-## 6. Instrucciones de Ejecución
+Este menú permite demostrar el funcionamiento completo del sistema de forma controlada.
 
-### 6.1 Requisitos previos
+10. Prueba Integrada del Sistema
+El sistema incluye una prueba integrada que ejecuta todas las capas:
 
-- Python 3.8 o superior instalado
-- WampServer (con MySQL) ejecutándose
-- MySQL accesible en `localhost:3306`
+Consumo de API REST
 
-### 6.2 Instalación
+Conversión de datos a objetos
 
-#### Paso 1: Clonar o descargar el proyecto
+Persistencia en MySQL
 
-```bash
-# El proyecto debería estar en:
-C:\Users\[Tu Usuario]\Desktop\API_EVAL3
-```
+Recuperación desde base de datos
 
-#### Paso 2: Instalar dependencias
+Visualización por consola
 
-```bash
-cd C:\Users\[Tu Usuario]\Desktop\API_EVAL3
+Esto permite validar que la arquitectura funciona correctamente como un todo.
 
-# Crear un entorno virtual (opcional pero recomendado)
+11. Base de Datos
+Tabla usuario
+Campo	Tipo	Descripción
+id	INT	Identificador único
+nombre	VARCHAR	Nombre del usuario
+correo	VARCHAR	Email único
+
+Tabla post
+Campo	Tipo	Descripción
+id	INT	Identificador
+usuario_id	INT	Relación con usuario
+titulo	VARCHAR	Título
+contenido	TEXT	Contenido
+
+12. Instrucciones de Ejecución
+Requisitos
+Python 3.8+
+
+WampServer activo
+
+MySQL en localhost
+
+Pasos
+bash
+Copiar código
 python -m venv venv
 venv\Scripts\activate
-
-# Instalar paquetes requeridos
 pip install -r requirements.txt
-```
+Crear la base de datos importando:
 
-#### Paso 3: Crear la base de datos
+bash
+Copiar código
+datos/ddl.sql
+Ejecutar el sistema:
 
-1. Abrir phpMyAdmin (acceder a `localhost/phpmyadmin`)
-2. Crear una nueva base de datos (o usar una existente)
-3. Importar el archivo `datos/ddl.sql`:
-   - En phpMyAdmin, ir a "Importar"
-   - Seleccionar `datos/ddl.sql`
-   - Hacer clic en "Ejecutar"
-
-Alternativa por consola MySQL:
-
-```bash
-mysql -u root < datos/ddl.sql
-```
-
-#### Paso 4: Configurar parámetros (si es necesario)
-
-Editar `app/config/settings.py` si los datos de conexión son diferentes:
-
-```python
-DB_HOST = "localhost"    # Host del servidor MySQL
-DB_USER = "root"         # Usuario MySQL
-DB_PASSWORD = ""         # Contraseña (vacío para WAMP default)
-DB_NAME = "api_eval3"    # Nombre de la base de datos
-```
-
-#### Paso 5: Ejecutar el programa
-
-```bash
+bash
+Copiar código
 python -m app.main
-```
+13. Conclusión Académica
+Este proyecto demuestra:
 
-O desde la carpeta del proyecto:
+Aplicación práctica de Programación Orientada a Objetos
 
-```bash
-cd C:\Users\[Tu Usuario]\Desktop\API_EVAL3
-python -m app.main
-```
+Uso de arquitectura en capas
 
-### 6.3 Salida esperada
+Consumo de APIs REST
 
-```
-============================================================
-  INICIANDO SISTEMA API_EVAL3
-============================================================
+Persistencia en bases de datos
 
-1. Creando cliente de JSONPlaceholder...
-   ✓ Cliente creado
+Separación de responsabilidades
 
-2. Creando conexión a MySQL...
-   ✓ Conexión exitosa
+Uso de una capa de negocio con encriptación
 
-3. Creando servicios...
-   ✓ Servicios creados
+El proyecto simula el comportamiento de aplicaciones backend reales y cumple con los criterios establecidos en la evaluación.
 
-============================================================
-  FASE 1: IMPORTAR USUARIOS DESDE JSONPLACEHOLDER
-============================================================
+14. Autor y Contexto
+Evaluación: Unidad 3 – Programación Orientada a Objetos
+Desarrollado por: Nicolás Cárdenas
+Herramientas: Python, MySQL, GitHub Copilot, VS Code
 
-Ejecutando: UsuarioService.importar_desde_api()
-...
-
-✓ SISTEMA FUNCIONANDO CORRECTAMENTE
-```
-
----
-
-## 7. Estructura de la Base de Datos
-
-### Tabla: usuario
-
-| Campo | Tipo | Restricciones | Propósito |
-|-------|------|---|----------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Identificador único |
-| `nombre` | VARCHAR(255) | NOT NULL | Nombre del usuario |
-| `correo` | VARCHAR(255) | UNIQUE, NOT NULL | Email (único) |
-| `creado_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Timestamp de creación |
-
-### Tabla: post
-
-| Campo | Tipo | Restricciones | Propósito |
-|-------|------|---|----------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Identificador único |
-| `usuario_id` | INT | FOREIGN KEY, NOT NULL | Referencia a usuario |
-| `titulo` | VARCHAR(255) | NOT NULL | Título del post |
-| `contenido` | TEXT | NOT NULL | Cuerpo del post |
-| `creado_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Timestamp de creación |
-
-**Relación**: Cada post pertenece a un usuario. Si se elimina un usuario, sus posts se eliminan automáticamente (`ON DELETE CASCADE`).
-
----
-
-## 8. Clases Principales
-
-### JsonPlaceholderClient
-
-Encapsula la comunicación con la API JSONPlaceholder.
-
-**Métodos públicos:**
-- `get_usuarios()` → Lista[Dict]
-- `get_posts()` → Lista[Dict]
-
-### Usuario
-
-Modelo de dominio para usuarios.
-
-**Atributos:**
-- `id`: int
-- `nombre`: str
-- `correo`: str
-
-**Métodos:**
-- `__init__(id, nombre, correo)`
-- `from_dict(data)` (classmethod)
-- `__repr__()` (para depuración)
-
-### UsuarioService
-
-Servicio que coordina operaciones con usuarios.
-
-**Métodos públicos:**
-- `importar_desde_api()` → bool
-- `listar()` → Lista[Usuario]
-- `eliminar_por_id(id)` → bool
-
-### Conexion
-
-Gestiona la conexión a MySQL.
-
-**Métodos públicos:**
-- `conectar()` → bool
-- `obtener_conexion()` → MySQLConnection
-- `cerrar()` → bool
-
----
-
-## 9. Conclusión Académica
-
-### Lo aprendido en este proyecto:
-
-1. **Arquitectura en capas**: Cómo separar responsabilidades en un proyecto real
-2. **POO en la práctica**: Uso de clases, herencia, métodos de clase y encapsulación
-3. **Consumo de APIs**: Cómo integrar servicios externos en una aplicación
-4. **Persistencia de datos**: Operaciones CRUD en bases de datos relacionales
-5. **Inyección de dependencias**: Patrón fundamental para código mantenible
-
-### Relevancia en el mundo real:
-
-Este proyecto simula el funcionamiento de aplicaciones **backend** reales:
-
-- Las APIs públicas son consumidas constantemente por aplicaciones web
-- La persistencia en bases de datos es esencial para cualquier servicio
-- La arquitectura en capas es estándar en la industria
-- Los conceptos de POO son transferibles a cualquier lenguaje (Java, C#, etc.)
-
-### Mejoras futuras (para ampliar el aprendizaje):
-
-- Agregar autenticación JWT
-- Implementar caché de datos
-- Crear endpoints REST propios (con Flask/FastAPI)
-- Agregar pruebas unitarias (unittest, pytest)
-- Usar ORM (SQLAlchemy) en lugar de SQL directo
-- Implementar logging estructurado
-
----
-
-## 10. Autor y Contexto
-
-**Asignatura**: Programación Orientada a Objetos  
-**Evaluación**: Unidad 3 - Integración de Sistemas  
-**Tecnologías**: Python, MySQL, API REST  
-**Desarrollado con**: GitHub Copilot, Visual Studio Code, Python 3.8+
-
----
-
-## 11. Referencias
-
-- [JSONPlaceholder - API pública de pruebas](https://jsonplaceholder.typicode.com/)
-- [Documentación oficial de Python](https://docs.python.org/3/)
-- [MySQL 5.7 - Documentación](https://dev.mysql.com/doc/refman/5.7/en/)
-- [WampServer - Descargas](https://www.wampserver.com/)
-- [Principios SOLID](https://en.wikipedia.org/wiki/SOLID)
-
----
-
-**Última actualización**: Diciembre 2025  
-**Estado**: Proyecto completado y listo para evaluación
-
-
+Estado: Proyecto funcional, probado y listo para evaluación
